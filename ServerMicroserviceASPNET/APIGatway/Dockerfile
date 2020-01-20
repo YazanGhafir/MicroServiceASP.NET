@@ -6,18 +6,17 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1903 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["APIGatway/APIGatway.fsproj", "APIGatway/"]
-RUN dotnet restore "APIGatway/APIGatway.fsproj"
+COPY ["APIGatway/APIGatway.csproj", "APIGatway/"]
+RUN dotnet restore "APIGatway/APIGatway.csproj"
 COPY . .
 WORKDIR "/src/APIGatway"
-RUN dotnet build "APIGatway.fsproj" -c Release -o /app/build
+RUN dotnet build "APIGatway.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "APIGatway.fsproj" -c Release -o /app/publish
+RUN dotnet publish "APIGatway.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
