@@ -13,7 +13,14 @@ namespace APIGatway
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,9 +29,9 @@ namespace APIGatway
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-            .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                config.AddJsonFile("ocelot.json");
-            });
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("ocelot.json");
+                });
     }
 }
